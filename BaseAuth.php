@@ -10,7 +10,7 @@ namespace Mezon\SocialNetwork;
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-// TODO exclude to separate project
+
 /**
  * Class provides integration with social networks authorization APIs.
  *

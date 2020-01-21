@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\SocialNetwork\BaseAuth;
+namespace Mezon\SocialNetwork\Auth;
 
 /**
  * Class FacebookAuth
@@ -11,7 +11,6 @@ namespace Mezon\SocialNetwork\BaseAuth;
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO move to separate package
 /**
  * Class provides integration with Facebook.
  *

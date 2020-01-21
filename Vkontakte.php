@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\SocialNetwork\BaseAuth;
+namespace Mezon\SocialNetwork\Auth;
 
 /**
  * Class Vkontakte

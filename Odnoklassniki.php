@@ -112,7 +112,7 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
      */
     public function request_token(array $Params): array
     {
-        $Result = \Mezon\CustomClient\CurlWrapper::send_request('http://api.odnoklassniki.ru/oauth/token.do', [], 'POST', $Params);
+        $Result = \Mezon\CustomClient\CurlWrapper::sendRequest('http://api.odnoklassniki.ru/oauth/token.do', [], 'POST', $Params);
 
         $Token = json_decode($Result[0], true);
 

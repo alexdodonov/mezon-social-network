@@ -1,5 +1,6 @@
 <?php
 namespace Mezon\SocialNetwork;
+//TODO convert to PSR
 
 /**
  * Class SocialNetworkAuth

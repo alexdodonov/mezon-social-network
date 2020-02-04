@@ -24,7 +24,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetUerInfoUri()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/api.vk.com/method/users.get?v=5.0&', $Auth->get_user_info_uri());
@@ -36,7 +36,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenUri()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/oauth.vk.com/access_token?v=5.0&', $Auth->get_token_uri());
@@ -48,7 +48,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetDesiredFields()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body
         $Fields = $Auth->get_desired_fields();
@@ -67,7 +67,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([

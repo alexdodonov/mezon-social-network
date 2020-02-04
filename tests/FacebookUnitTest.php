@@ -24,7 +24,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
     public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Facebook($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/graph.facebook.com/me?', $Auth->get_user_info_uri());
@@ -36,7 +36,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenUri()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Facebook($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/graph.facebook.com/oauth/access_token?', $Auth->get_token_uri());
@@ -48,7 +48,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
     public function testGetDesiredFields()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Facebook($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
         $this->assertContains('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->get_desired_fields());
@@ -60,7 +60,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
     public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth\Facebook($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([

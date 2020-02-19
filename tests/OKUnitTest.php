@@ -1,5 +1,5 @@
 <?php
-require_once (__DIR__ . '/../../../../../../../autoloader.php');
+require_once (__DIR__ . '/../vendor/autoload.php');
 
 class OKUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -28,8 +28,8 @@ class OKUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Odnoklassniki($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/api.odnoklassniki.ru/fb.do?application_key=', $Auth->get_user_info_uri());
-        $this->assertContains('?application_key=4', $Auth->get_user_info_uri());
+        $this->assertStringContainsString('/api.odnoklassniki.ru/fb.do?application_key=', $Auth->get_user_info_uri());
+        $this->assertStringContainsString('?application_key=4', $Auth->get_user_info_uri());
     }
 
     /**
@@ -41,7 +41,7 @@ class OKUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Odnoklassniki($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/api.odnoklassniki.ru/oauth/token.do?grant_type=authorization_code&', $Auth->get_token_uri());
+        $this->assertStringContainsString('/api.odnoklassniki.ru/oauth/token.do?grant_type=authorization_code&', $Auth->get_token_uri());
     }
 
     /**

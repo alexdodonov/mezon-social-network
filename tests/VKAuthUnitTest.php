@@ -1,5 +1,5 @@
 <?php
-require_once (__DIR__ . '/../../../../../../../autoloader.php');
+require_once (__DIR__ . '/../vendor/autoload.php');
 
 class VKAuthUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -27,7 +27,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/api.vk.com/method/users.get?v=5.0&', $Auth->get_user_info_uri());
+        $this->assertStringContainsString('/api.vk.com/method/users.get?v=5.0&', $Auth->get_user_info_uri());
     }
 
     /**
@@ -39,7 +39,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/oauth.vk.com/access_token?v=5.0&', $Auth->get_token_uri());
+        $this->assertStringContainsString('/oauth.vk.com/access_token?v=5.0&', $Auth->get_token_uri());
     }
 
     /**
@@ -54,11 +54,11 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Fields = $Auth->get_desired_fields();
 
         // assertions
-        $this->assertContains('id', $Fields);
-        $this->assertContains('first_name', $Fields);
-        $this->assertContains('last_name', $Fields);
-        $this->assertContains('email', $Fields);
-        $this->assertContains('photo_100', $Fields);
+        $this->assertStringContainsString('id', $Fields);
+        $this->assertStringContainsString('first_name', $Fields);
+        $this->assertStringContainsString('last_name', $Fields);
+        $this->assertStringContainsString('email', $Fields);
+        $this->assertStringContainsString('photo_100', $Fields);
     }
 
     /**

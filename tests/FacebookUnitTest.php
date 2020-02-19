@@ -1,5 +1,5 @@
 <?php
-require_once (__DIR__ . '/../../../../../../../autoloader.php');
+require_once (__DIR__ . '/../vendor/autoload.php');
 
 class FacebookUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -27,7 +27,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/graph.facebook.com/me?', $Auth->get_user_info_uri());
+        $this->assertStringContainsString('/graph.facebook.com/me?', $Auth->get_user_info_uri());
     }
 
     /**
@@ -39,7 +39,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/graph.facebook.com/oauth/access_token?', $Auth->get_token_uri());
+        $this->assertStringContainsString('/graph.facebook.com/oauth/access_token?', $Auth->get_token_uri());
     }
 
     /**
@@ -51,7 +51,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->get_desired_fields());
+        $this->assertStringContainsString('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->get_desired_fields());
     }
 
     /**

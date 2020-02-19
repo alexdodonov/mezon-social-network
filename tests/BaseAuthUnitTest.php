@@ -1,6 +1,6 @@
 <?php
 
-require_once (__DIR__ . '/../../../../../autoloader.php');
+require_once (__DIR__ . '/../vendor/autoload.php');
 
 class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -43,7 +43,7 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         $Link = $Auth->get_link();
 
         // assertions
-        $this->assertContains('http://oauth-uriclient_id=1&redirect_uri=3&response_type=code', $Link, 'Invalid link was generated');
+        $this->assertStringContainsString('http://oauth-uriclient_id=1&redirect_uri=3&response_type=code', $Link, 'Invalid link was generated');
     }
 
     /**
@@ -75,7 +75,7 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         $Link = $Auth->get_user_info_uri();
 
         // assertions
-        $this->assertContains('://user-info-uri/?', $Link, 'Invalid user info URI');
+        $this->assertStringContainsString('://user-info-uri/?', $Link, 'Invalid user info URI');
     }
 
     /**
@@ -108,7 +108,7 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         $Link = $Auth->get_token_uri();
 
         // assertions
-        $this->assertContains('://token-uri', $Link, 'Invalid token URI');
+        $this->assertStringContainsString('://token-uri', $Link, 'Invalid token URI');
     }
 
     /**
@@ -123,7 +123,7 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         $Fields = $Auth->get_desired_fields();
 
         // assertions
-        $this->assertContains('desired,fields', $Fields, 'Invalid token URI');
+        $this->assertStringContainsString('desired,fields', $Fields, 'Invalid token URI');
     }
 
     /**

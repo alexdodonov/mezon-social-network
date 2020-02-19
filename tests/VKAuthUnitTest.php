@@ -18,7 +18,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_user_info_uri
+     * Testing getUserInfoUri
      */
     public function testGetUerInfoUri()
     {
@@ -26,11 +26,11 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/api.vk.com/method/users.get?v=5.0&', $Auth->get_user_info_uri());
+        $this->assertStringContainsString('/api.vk.com/method/users.get?v=5.0&', $Auth->getUserInfoUri());
     }
 
     /**
-     * Testing get_token_uri
+     * Testing getTokenUri
      */
     public function testGetTokenUri()
     {
@@ -38,11 +38,11 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/oauth.vk.com/access_token?v=5.0&', $Auth->get_token_uri());
+        $this->assertStringContainsString('/oauth.vk.com/access_token?v=5.0&', $Auth->getTokenUri());
     }
 
     /**
-     * Testing get_desired_fields
+     * Testing getDesiredFields
      */
     public function testGetDesiredFields()
     {
@@ -50,7 +50,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body
-        $Fields = $Auth->get_desired_fields();
+        $Fields = $Auth->getDesiredFields();
 
         // assertions
         $this->assertStringContainsString('id', $Fields);
@@ -61,7 +61,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing dispatch_user_info
+     * Testing dispatchUserInfo
      */
     public function testDispatchUserInfo()
     {
@@ -69,7 +69,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body
-        $Result = $Auth->dispatch_user_info([
+        $Result = $Auth->dispatchUserInfo([
             'response' => [
                 [
                     'id' => '',

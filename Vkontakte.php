@@ -24,21 +24,21 @@ class Vkontakte extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string URL
      */
-    protected function get_oauth_uri(): string
+    public function getOauthUri(): string
     {
-        return ('https://oauth.vk.com/authorize?v=5.0&');
+        return 'https://oauth.vk.com/authorize?v=5.0&';
     }
 
     /**
      * Method return URL wich provides user's info.
      *
-     * @param string $Token
+     * @param string $token
      *            - Token;
      * @return string URL
      */
-    public function get_user_info_uri(string $Token = ''): string
+    public function getUserInfoUri(string $token = ''): string
     {
-        return ('https://api.vk.com/method/users.get?v=5.0&');
+        return 'https://api.vk.com/method/users.get?v=5.0&';
     }
 
     /**
@@ -46,9 +46,9 @@ class Vkontakte extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string URL
      */
-    public function get_token_uri(): string
+    public function getTokenUri(): string
     {
-        return ('https://oauth.vk.com/access_token?v=5.0&');
+        return 'https://oauth.vk.com/access_token?v=5.0&';
     }
 
     /**
@@ -56,33 +56,31 @@ class Vkontakte extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string Comma separated of the desired fields.
      */
-    public function get_desired_fields(): string
+    public function getDesiredFields(): string
     {
-        return ('uid,first_name,last_name,email,photo_100');
+        return 'uid,first_name,last_name,email,photo_100';
     }
 
     /**
      * Method dispatches user info.
      *
-     * @param array $UserInfo
+     * @param array $userInfo
      *            - User info got from social network.
      * @return array Dispatched user info. Must be as array with keys id, first_name, last_name, email, picture.
      */
-    public function dispatch_user_info(array $UserInfo): array
+    public function dispatchUserInfo(array $userInfo): array
     {
-        $Response = $UserInfo['response'][0];
+        $response = $userInfo['response'][0];
 
-        $Response['email'] = $Response['email'] ?? '';
+        $response['email'] = $response['email'] ?? '';
 
-        $Return = [
-            'id' => $Response['id'],
-            'first_name' => $Response['first_name'],
-            'last_name' => $Response['last_name'],
-            'picture' => $Response['photo_100'],
-            'email' => $Response['email']
+        return [
+            'id' => $response['id'],
+            'first_name' => $response['first_name'],
+            'last_name' => $response['last_name'],
+            'picture' => $response['photo_100'],
+            'email' => $response['email']
         ];
-
-        return ($Return);
     }
 }
 

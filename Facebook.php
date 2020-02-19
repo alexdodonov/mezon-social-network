@@ -24,21 +24,21 @@ class Facebook extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string URL
      */
-    protected function get_oauth_uri(): string
+    public function getOauthUri(): string
     {
-        return ('https://www.facebook.com/dialog/oauth?');
+        return 'https://www.facebook.com/dialog/oauth?';
     }
 
     /**
      * Method return URL wich provides user's info.
      *
-     * @param string $Token
+     * @param string $token
      *            - Token;
      * @return string URL
      */
-    public function get_user_info_uri(string $Token = ''): string
+    public function getUserInfoUri(string $token = ''): string
     {
-        return ('https://graph.facebook.com/me?');
+        return 'https://graph.facebook.com/me?';
     }
 
     /**
@@ -46,9 +46,9 @@ class Facebook extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string URL
      */
-    public function get_token_uri(): string
+    public function getTokenUri(): string
     {
-        return ('https://graph.facebook.com/oauth/access_token?');
+        return 'https://graph.facebook.com/oauth/access_token?';
     }
 
     /**
@@ -56,24 +56,24 @@ class Facebook extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string Comma separated of the desired fields.
      */
-    public function get_desired_fields(): string
+    public function getDesiredFields(): string
     {
-        return ('id,first_name,last_name,email,picture.width(120).height(120)');
+        return 'id,first_name,last_name,email,picture.width(120).height(120)';
     }
 
     /**
      * Method dispatches user info
      *
-     * @param array $UserInfo
+     * @param array $userInfo
      *            User info got from social network
      * @return array Dispatched user info. Must be as array with keys id, first_name, last_name, email, picture
      */
-    public function dispatch_user_info(array $UserInfo): array
+    public function dispatchUserInfo(array $userInfo): array
     {
-        $UserInfo['email'] = $UserInfo['email'] ?? '';
-        $UserInfo['picture'] = $UserInfo['picture']['data']['url'];
+        $userInfo['email'] = $userInfo['email'] ?? '';
+        $userInfo['picture'] = $userInfo['picture']['data']['url'];
 
-        return ($UserInfo);
+        return $userInfo;
     }
 }
 

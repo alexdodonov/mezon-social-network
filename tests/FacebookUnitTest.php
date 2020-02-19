@@ -18,7 +18,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_user_info_uri
+     * Testing getUserInfoUri
      */
     public function testGetUserInfoUri()
     {
@@ -26,11 +26,11 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/graph.facebook.com/me?', $Auth->get_user_info_uri());
+        $this->assertStringContainsString('/graph.facebook.com/me?', $Auth->getUserInfoUri());
     }
 
     /**
-     * Testing get_token_uri
+     * Testing getTokenUri
      */
     public function testGetTokenUri()
     {
@@ -38,11 +38,11 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/graph.facebook.com/oauth/access_token?', $Auth->get_token_uri());
+        $this->assertStringContainsString('/graph.facebook.com/oauth/access_token?', $Auth->getTokenUri());
     }
 
     /**
-     * Testing get_desired_fields
+     * Testing getDesiredFields
      */
     public function testGetDesiredFields()
     {
@@ -50,11 +50,11 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->get_desired_fields());
+        $this->assertStringContainsString('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->getDesiredFields());
     }
 
     /**
-     * Testing dispatch_user_info
+     * Testing dispatchUserInfo
      */
     public function testDispatchUserInfo()
     {
@@ -62,7 +62,7 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
         // test body
-        $Result = $Auth->dispatch_user_info([
+        $Result = $Auth->dispatchUserInfo([
             'id' => '',
             'first_name' => '',
             'last_name' => '',

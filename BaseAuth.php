@@ -1,6 +1,5 @@
 <?php
 namespace Mezon\SocialNetwork;
-//TODO convert to PSR
 
 /**
  * Class SocialNetworkAuth
@@ -17,7 +16,7 @@ namespace Mezon\SocialNetwork;
  *
  * @author Dodonov A.A.
  */
-class BaseAuth
+abstract class BaseAuth
 {
 
     /**
@@ -25,25 +24,25 @@ class BaseAuth
      *
      * @var array
      */
-    var $Settings = [];
+    var $settings = [];
 
     /**
      * Fetched user's info.
      *
      * @var array
      */
-    var $UserInfo;
+    var $userInfo;
 
     /**
      * Constructor.
      *
-     * @param array $Settings
+     * @param array $settings
      *            - Connection settings.
      */
-    public function __construct(array $Settings)
+    public function __construct(array $settings)
     {
-        if (isset($Settings['client_id'], $Settings['client_secret'], $Settings['redirect_uri'])) {
-            $this->Settings = $Settings;
+        if (isset($settings['client_id'], $settings['client_secret'], $settings['redirect_uri'])) {
+            $this->settings = $settings;
         }
     }
 
@@ -53,10 +52,10 @@ class BaseAuth
      * @param string $URL
      * @return string Request result
      */
-    protected function get_request(string $URL): string
+    protected function getRequest(string $url): string
     {
         // @codeCoverageIgnoreStart
-        return (file_get_contents($URL));
+        return file_get_contents($url);
         // @codeCoverageIgnoreEnd
     }
 
@@ -67,32 +66,32 @@ class BaseAuth
      *            - Code.
      * @return boolean True on success. False otherwise.
      */
-    public function auth(string $Code): bool
+    public function auth(string $code): bool
     {
-        if ($Code && $this->Settings) {
+        if ($code && $this->settings) {
 
-            $Params = $this->get_token_params($Code);
+            $params = $this->getTokenParams($code);
 
-            $Token = $this->request_token($Params);
+            $token = $this->requestToken($params);
 
-            if (isset($Token['access_token'])) {
-                $Query = urldecode(http_build_query([
+            if (isset($token['access_token'])) {
+                $query = urldecode(http_build_query([
 
-                    'access_token' => $Token['access_token'],
-                    'fields' => $this->get_desired_fields()
+                    'access_token' => $token['access_token'],
+                    'fields' => $this->getDesiredFields()
                 ]));
 
-                $this->UserInfo = json_decode($this->get_request($this->get_user_info_uri($Token['access_token']) . $Query), true);
+                $this->userInfo = json_decode($this->getRequest($this->getUserInfoUri($token['access_token']) . $query), true);
 
-                $this->UserInfo = $this->dispatch_user_info($this->UserInfo);
+                $this->userInfo = $this->dispatchUserInfo($this->userInfo);
 
-                if (isset($this->UserInfo['id'])) {
-                    return (true);
+                if (isset($this->userInfo['id'])) {
+                    return true;
                 }
             }
         }
 
-        return (false);
+        return false;
     }
 
     /**
@@ -100,18 +99,18 @@ class BaseAuth
      *
      * @return string Authorization url.
      */
-    public function get_link(): string
+    public function getLink(): string
     {
-        if (count($this->Settings)) {
+        if (count($this->settings)) {
 
-            $Query = urldecode(http_build_query([
+            $query = urldecode(http_build_query([
 
-                'client_id' => $this->Settings['client_id'],
-                'redirect_uri' => $this->Settings['redirect_uri'],
+                'client_id' => $this->settings['client_id'],
+                'redirect_uri' => $this->settings['redirect_uri'],
                 'response_type' => 'code'
             ]));
 
-            return ($this->get_oauth_uri() . $Query);
+            return $this->getOauthUri() . $query;
         }
 
         throw (new \Exception('Social network\'s authorization URL was not found.'));
@@ -122,88 +121,77 @@ class BaseAuth
      *
      * @return string URL
      */
-    protected function get_oauth_uri(): string
-    {
-        return ('http://oauth-uri');
-    }
+    abstract public function getOauthUri(): string;
 
     /**
      * Method return URL wich provides user's info
      *
-     * @param string $Token
+     * @param string $token
      *            Token
      * @return string URL
      */
-    public function get_user_info_uri(string $Token = ''): string
-    {
-        return ('http://user-info-uri/?' . $Token);
-    }
+    abstract public function getUserInfoUri(string $token = ''): string;
 
     /**
      * Method returns token URL
      *
      * @return string URL
      */
-    public function get_token_uri(): string
-    {
-        return ('http://token-uri');
-    }
+    abstract public function getTokenUri(): string;
 
     /**
      * Method returns a list of desired fields
      *
      * @return string Comma separated of the desired fields
      */
-    public function get_desired_fields(): string
+    public function getDesiredFields(): string
     {
-        return ('desired,fields');
+        return 'desired,fields';
     }
 
     /**
      * Method dispatches user info
      *
-     * @param array $UserInfo
+     * @param array $userInfo
      *            User info got from social network
      * @return array Dispatched user info. Must be as array with keys id, first_name, last_name, email, picture
      */
-    public function dispatch_user_info(array $UserInfo): array
+    public function dispatchUserInfo(array $userInfo): array
     {
-        $UserInfo['picture'] = $UserInfo['picture']['data']['url'];
+        $userInfo['picture'] = $userInfo['picture']['data']['url'];
 
-        return ($UserInfo);
+        return $userInfo;
     }
 
     /**
      * Method returns params for getting token
      *
-     * @param string $Code
+     * @param string $code
      *            Access code
      * @return array Params
      */
-    public function get_token_params(string $Code): array
+    public function getTokenParams(string $code): array
     {
-        return ([
-            'client_id' => $this->Settings['client_id'],
-            'redirect_uri' => $this->Settings['redirect_uri'],
-            'client_secret' => $this->Settings['client_secret'],
-            'code' => $Code
-        ]);
+        return [
+            'client_id' => $this->settings['client_id'],
+            'redirect_uri' => $this->settings['redirect_uri'],
+            'client_secret' => $this->settings['client_secret'],
+            'code' => $code
+        ];
     }
 
     /**
      * Method requests token from server
      *
-     * @param array $Params
+     * @param array $params
      *            Request params
      * @return array Token data
      */
-    public function request_token(array $Params): array
+    public function requestToken(array $params): array
     {
-        $Query = urldecode(http_build_query($Params));
+        $query = urldecode(http_build_query($params));
 
-        $Token = json_decode(file_get_contents($this->get_token_uri() . $Query), true);
-
-        return ($Token);
+        return json_decode(file_get_contents($this->getTokenUri() . $query), true);
     }
 }
 

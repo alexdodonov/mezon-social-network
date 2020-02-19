@@ -1,5 +1,24 @@
 <?php
 
+class AdoptedBaseAuth extends \Mezon\SocialNetwork\BaseAuth
+{
+
+    public function getUserInfoUri(string $token = ''): string
+    {
+        return 'http://user-info-uri/?' . $token;
+    }
+
+    public function getTokenUri(): string
+    {
+        return 'http://token-uri';
+    }
+
+    public function getOauthUri(): string
+    {
+        return 'http://oauth-uri';
+    }
+}
+
 class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
 {
 
@@ -23,10 +42,10 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup and test body
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
+        $Auth = new AdoptedBaseAuth($this->getSettings());
 
         // assertions
-        $this->assertEquals(3, count($Auth->Settings), 'Setting were not set');
+        $this->assertEquals(3, count($Auth->settings), 'Setting were not set');
     }
 
     /**
@@ -35,13 +54,13 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetLink()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
-        $Link = $Auth->get_link();
+        $link = $auth->getLink();
 
         // assertions
-        $this->assertStringContainsString('http://oauth-uriclient_id=1&redirect_uri=3&response_type=code', $Link, 'Invalid link was generated');
+        $this->assertStringContainsString('http://oauth-uriclient_id=1&redirect_uri=3&response_type=code', $link, 'Invalid link was generated');
     }
 
     /**
@@ -50,11 +69,11 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetLinkException()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth([]);
+        $auth = new AdoptedBaseAuth([]);
 
         try {
             // test body and assertions
-            $Auth->get_link();
+            $auth->getLink();
             $this->fail('Exception must be thrown');
         } catch (Exception $e) {
             $this->addToAssertionCount(1);
@@ -62,18 +81,18 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_user_info_uri
+     * Testing getUserInfoUri
      */
     public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
-        $Link = $Auth->get_user_info_uri();
+        $link = $auth->getUserInfoUri();
 
         // assertions
-        $this->assertStringContainsString('://user-info-uri/?', $Link, 'Invalid user info URI');
+        $this->assertStringContainsString('://user-info-uri/?', $link, 'Invalid user info URI');
     }
 
     /**
@@ -82,16 +101,16 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenParams()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
-        $Params = $Auth->get_token_params(123);
+        $params = $auth->getTokenParams(123);
 
         // assertions
-        $this->assertEquals(1, $Params['client_id'], 'Invalid "client_id"');
-        $this->assertEquals(2, $Params['client_secret'], 'Invalid "client_secret"');
-        $this->assertEquals(3, $Params['redirect_uri'], 'Invalid "redirect_uri"');
-        $this->assertEquals(123, $Params['code'], 'Invalid "code"');
+        $this->assertEquals(1, $params['client_id'], 'Invalid "client_id"');
+        $this->assertEquals(2, $params['client_secret'], 'Invalid "client_secret"');
+        $this->assertEquals(3, $params['redirect_uri'], 'Invalid "redirect_uri"');
+        $this->assertEquals(123, $params['code'], 'Invalid "code"');
     }
 
     /**
@@ -100,13 +119,13 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenUri()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
-        $Link = $Auth->get_token_uri();
+        $link = $auth->getTokenUri();
 
         // assertions
-        $this->assertStringContainsString('://token-uri', $Link, 'Invalid token URI');
+        $this->assertStringContainsString('://token-uri', $link, 'Invalid token URI');
     }
 
     /**
@@ -115,23 +134,23 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetDesiredFields()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
-        $Fields = $Auth->get_desired_fields();
+        $fields = $auth->getDesiredFields();
 
         // assertions
-        $this->assertStringContainsString('desired,fields', $Fields, 'Invalid token URI');
+        $this->assertStringContainsString('desired,fields', $fields, 'Invalid token URI');
     }
 
     /**
-     * Testing 'dispatch_user_info' method
+     * Testing 'dispatchUserInfo' method
      */
     public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
-        $UserInfo = [
+        $auth = new AdoptedBaseAuth($this->getSettings());
+        $userInfo = [
             'picture' => [
                 'data' => [
                     'url' => 'image url'
@@ -140,10 +159,10 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        $UserInfo = $Auth->dispatch_user_info($UserInfo);
+        $userInfo = $auth->dispatchUserInfo($userInfo);
 
         // assertions
-        $this->assertIsString($UserInfo['picture'], 'Record was not transformed');
+        $this->assertIsString($userInfo['picture'], 'Record was not transformed');
     }
 
     /**
@@ -152,16 +171,16 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testAuth()
     {
         // setup
-        $Auth = $this->getMockBuilder(\Mezon\SocialNetwork\BaseAuth::class)
+        $auth = $this->getMockBuilder(AdoptedBaseAuth::class)
             ->setMethods([
-            'get_request',
-            'request_token'
+            'getRequest',
+            'requestToken'
         ])
             ->setConstructorArgs([
             $this->getSettings()
         ])
             ->getMock();
-        $Auth->method('get_request')->willReturn(json_encode([
+        $auth->method('getRequest')->willReturn(json_encode([
             'id' => 1,
             'picture' => [
                 'data' => [
@@ -170,15 +189,15 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
             ]
         ]));
 
-        $Auth->method('request_token')->willReturn([
+        $auth->method('requestToken')->willReturn([
             'access_token' => 'some-token'
         ]);
 
         // test body
-        $Result = $Auth->auth('some-code');
+        $result = $auth->auth('some-code');
 
         // assertions
-        $this->assertTrue($Result, 'Auth was not performed');
+        $this->assertTrue($result, 'Auth was not performed');
     }
 }
 

@@ -24,9 +24,9 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string URL
      */
-    protected function get_oauth_uri(): string
+    public function getOauthUri(): string
     {
-        return ('https://connect.ok.ru/oauth/authorize?scope=VALUABLE_ACCESS;PHOTO_CONTENT&');
+        return 'https://connect.ok.ru/oauth/authorize?scope=VALUABLE_ACCESS;PHOTO_CONTENT&';
     }
 
     /**
@@ -36,11 +36,11 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
      *            - Token
      * @return string URL
      */
-    public function get_user_info_uri(string $Token = ''): string
+    public function getUserInfoUri(string $Token = ''): string
     {
-        $Signature = md5('application_key=' . $this->Settings['client_public'] . 'fields=' . $this->get_desired_fields() . 'format=jsonmethod=users.getCurrentUser' . md5($Token . $this->Settings['client_secret']));
+        $Signature = md5('application_key=' . $this->settings['client_public'] . 'fields=' . $this->getDesiredFields() . 'format=jsonmethod=users.getCurrentUser' . md5($Token . $this->settings['client_secret']));
 
-        return ('http://api.odnoklassniki.ru/fb.do?application_key=' . $this->Settings['client_public'] . '&format=json&method=users.getCurrentUser&sig=' . $Signature . '&');
+        return 'http://api.odnoklassniki.ru/fb.do?application_key=' . $this->settings['client_public'] . '&format=json&method=users.getCurrentUser&sig=' . $Signature . '&';
     }
 
     /**
@@ -48,9 +48,9 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string URL
      */
-    public function get_token_uri(): string
+    public function getTokenUri(): string
     {
-        return ('http://api.odnoklassniki.ru/oauth/token.do?grant_type=authorization_code&');
+        return 'http://api.odnoklassniki.ru/oauth/token.do?grant_type=authorization_code&';
     }
 
     /**
@@ -58,9 +58,9 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
      *
      * @return string Comma separated of the desired fields
      */
-    public function get_desired_fields(): string
+    public function getDesiredFields(): string
     {
-        return ('UID,LOCALE,FIRST_NAME,LAST_NAME,EMAIL,PIC190X190,PIC640X480');
+        return 'UID,LOCALE,FIRST_NAME,LAST_NAME,EMAIL,PIC190X190,PIC640X480';
     }
 
     /**
@@ -70,53 +70,51 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
      *            - User info got from social network
      * @return array Dispatched user info. Must be as array with keys id, first_name, last_name, email, picture
      */
-    public function dispatch_user_info(array $UserInfo): array
+    public function dispatchUserInfo(array $userInfo): array
     {
-        $UserInfo['email'] = $UserInfo['email'] ?? '';
+        $userInfo['email'] = $userInfo['email'] ?? '';
 
-        $Return = [
-            'id' => $UserInfo['uid'],
-            'first_name' => $UserInfo['first_name'],
-            'last_name' => $UserInfo['last_name'],
-            'picture' => $UserInfo['pic190x190'],
-            'email' => $UserInfo['email']
+        $return = [
+            'id' => $userInfo['uid'],
+            'first_name' => $userInfo['first_name'],
+            'last_name' => $userInfo['last_name'],
+            'picture' => $userInfo['pic190x190'],
+            'email' => $userInfo['email']
         ];
 
-        return ($Return);
+        return $return;
     }
 
     /**
      * Method returns params for getting token
      *
-     * @param string $Code
+     * @param string $code
      *            - Access code
      * @return array Params
      */
-    public function get_token_params(string $Code): array
+    public function getTokenParams(string $code): array
     {
-        return ([
-            'client_id' => $this->Settings['client_id'],
-            'redirect_uri' => $this->Settings['redirect_uri'],
-            'client_secret' => $this->Settings['client_secret'],
+        return [
+            'client_id' => $this->settings['client_id'],
+            'redirect_uri' => $this->settings['redirect_uri'],
+            'client_secret' => $this->settings['client_secret'],
             'grant_type' => 'authorization_code',
-            'code' => $Code
-        ]);
+            'code' => $code
+        ];
     }
 
     /**
      * Method requests token from server
      *
-     * @param array $Params
+     * @param array $params
      *            - Request params
      * @return array Token data
      */
-    public function request_token(array $Params): array
+    public function requestToken(array $params): array
     {
-        $Result = \Mezon\CustomClient\CurlWrapper::sendRequest('http://api.odnoklassniki.ru/oauth/token.do', [], 'POST', $Params);
+        $result = \Mezon\CustomClient\CurlWrapper::sendRequest('http://api.odnoklassniki.ru/oauth/token.do', [], 'POST', $params);
 
-        $Token = json_decode($Result[0], true);
-
-        return ($Token);
+        return json_decode($result[0], true);
     }
 }
 

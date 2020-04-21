@@ -87,5 +87,3 @@ class OKUnitTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(123, $Params['code'], 'Invalid "code"');
     }
 }
-
-?>

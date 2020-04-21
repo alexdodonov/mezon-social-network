@@ -82,5 +82,3 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('email', $Result, 'email was not found');
     }
 }
-
-?>

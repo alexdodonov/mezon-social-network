@@ -194,5 +194,3 @@ abstract class BaseAuth
         return json_decode(file_get_contents($this->getTokenUri() . $query), true);
     }
 }
-
-?>

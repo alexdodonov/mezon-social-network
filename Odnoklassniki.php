@@ -117,5 +117,3 @@ class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
         return json_decode($result[0], true);
     }
 }
-
-?>

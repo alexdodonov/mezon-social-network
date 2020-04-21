@@ -76,5 +76,3 @@ class Facebook extends \Mezon\SocialNetwork\BaseAuth
         return $userInfo;
     }
 }
-
-?>

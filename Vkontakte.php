@@ -83,5 +83,3 @@ class Vkontakte extends \Mezon\SocialNetwork\BaseAuth
         ];
     }
 }
-
-?>

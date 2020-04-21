@@ -200,5 +200,3 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($result, 'Auth was not performed');
     }
 }
-
-?>

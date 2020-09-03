@@ -38,7 +38,7 @@ class Vkontakte extends \Mezon\SocialNetwork\BaseAuth
      */
     public function getUserInfoUri(string $token = ''): string
     {
-        return 'https://api.vk.com/method/users.get?v=5.0&';
+        return 'https://api.vk.com/method/users.get?v=5.21&';
     }
 
     /**

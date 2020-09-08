@@ -26,7 +26,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/api.vk.com/method/users.get?v=5.0&', $Auth->getUserInfoUri());
+        $this->assertStringContainsString('/api.vk.com/method/users.get?v=', $Auth->getUserInfoUri());
     }
 
     /**
@@ -38,7 +38,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
         $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/oauth.vk.com/access_token?v=5.0&', $Auth->getTokenUri());
+        $this->assertStringContainsString('/oauth.vk.com/access_token?v=', $Auth->getTokenUri());
     }
 
     /**

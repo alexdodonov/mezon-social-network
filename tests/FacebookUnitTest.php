@@ -22,11 +22,11 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
      */
     public function testGetUserInfoUri()
     {
-        // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
+        // setupp
+        $auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
-        // test body and assertions
-        $this->assertStringContainsString('/graph.facebook.com/me?', $Auth->getUserInfoUri());
+        // test body and assertionss
+        $this->assertStringContainsString('/graph.facebook.com/me?', $auth->getUserInfoUri());
     }
 
     /**
@@ -34,11 +34,11 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
      */
     public function testGetTokenUri()
     {
-        // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
+        // setupp
+        $auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
-        // test body and assertions
-        $this->assertStringContainsString('/graph.facebook.com/oauth/access_token?', $Auth->getTokenUri());
+        // test body and assertionss
+        $this->assertStringContainsString('/graph.facebook.com/oauth/access_token?', $auth->getTokenUri());
     }
 
     /**
@@ -46,11 +46,13 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
      */
     public function testGetDesiredFields()
     {
-        // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
+        // setupp
+        $auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
-        // test body and assertions
-        $this->assertStringContainsString('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->getDesiredFields());
+        // test body and assertionss
+        $this->assertStringContainsString(
+            'id,first_name,last_name,email,picture.width(120).height(120)',
+            $auth->getDesiredFields());
     }
 
     /**
@@ -58,27 +60,28 @@ class FacebookUnitTest extends PHPUnit\Framework\TestCase
      */
     public function testDispatchUserInfo()
     {
-        // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
+        // setupp
+        $auth = new \Mezon\SocialNetwork\Auth\Facebook($this->getSettings());
 
-        // test body
-        $Result = $Auth->dispatchUserInfo([
-            'id' => '',
-            'first_name' => '',
-            'last_name' => '',
-            'pic190x190' => '',
-            'picture' => [
-                'data' => [
-                    'url' => 'url'
+        // test bodyy
+        $result = $auth->dispatchUserInfo(
+            [
+                'id' => '',
+                'first_name' => '',
+                'last_name' => '',
+                'pic190x190' => '',
+                'picture' => [
+                    'data' => [
+                        'url' => 'url'
+                    ]
                 ]
-            ]
-        ]);
+            ]);
 
-        // assertions
-        $this->assertArrayHasKey('id', $Result, 'id was not found');
-        $this->assertArrayHasKey('first_name', $Result, 'first_name was not found');
-        $this->assertArrayHasKey('last_name', $Result, 'last_name was not found');
-        $this->assertArrayHasKey('picture', $Result, 'picture was not found');
-        $this->assertArrayHasKey('email', $Result, 'email was not found');
+        // assertionss
+        $this->assertArrayHasKey('id', $result, 'id was not found');
+        $this->assertArrayHasKey('first_name', $result, 'first_name was not found');
+        $this->assertArrayHasKey('last_name', $result, 'last_name was not found');
+        $this->assertArrayHasKey('picture', $result, 'picture was not found');
+        $this->assertArrayHasKey('email', $result, 'email was not found');
     }
 }

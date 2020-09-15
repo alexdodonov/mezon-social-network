@@ -57,11 +57,11 @@ If the method $facebook->auth() have returned `true` then everithing is OK and y
 var_dump($facebook->userInfo);
 // here:
 // [
-//    	'id' => 'user id',
-//		'first_name' => 'user first name',
-//		'last_name' => 'user last name',
-//		'email' => 'user email, but looks like Facebook has forbidden to fetch this info, so dont rely on this field',
-//		'picture' => 'user avatar'
+//	'id' => 'user id',
+//	'first_name' => 'user first name',
+//	'last_name' => 'user last name',
+//	'email' => 'user email, but looks like Facebook has forbidden to fetch this info, so dont rely on this field',
+//	'picture' => 'user avatar'
 // ]
 ```
 

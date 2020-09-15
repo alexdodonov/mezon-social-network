@@ -9,6 +9,12 @@ Just type
 composer require mezon/social-network
 ```
 
+## All supported social networks
+- Facebook
+- VKontakte
+- Odnoklassniki
+If you need support of the social media wich is not in the list please use [issue creation form](https://github.com/alexdodonov/mezon-social-network/issues)
+
 ## Facebook auth code
 
 First of all we need to create [Facebook application](https://developers.facebook.com/apps/)

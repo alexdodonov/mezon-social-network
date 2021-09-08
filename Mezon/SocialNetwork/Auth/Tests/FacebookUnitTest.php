@@ -88,7 +88,7 @@ class FacebookUnitTest extends TestCase
         $this->assertArrayHasKey('picture', $result, 'picture was not found');
         $this->assertArrayHasKey('email', $result, 'email was not found');
     }
-    
+
     /**
      * Testing method getOauthUri
      */
@@ -96,10 +96,10 @@ class FacebookUnitTest extends TestCase
     {
         // setup
         $auth = new Facebook($this->getSettings());
-        
+
         // test body
         $result = $auth->getOauthUri();
-        
+
         // assertions
         $this->assertEquals('https://www.facebook.com/dialog/oauth?', $result);
     }

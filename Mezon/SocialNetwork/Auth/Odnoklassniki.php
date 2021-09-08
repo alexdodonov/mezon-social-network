@@ -1,6 +1,8 @@
 <?php
 namespace Mezon\SocialNetwork\Auth;
 
+use Mezon\SocialNetwork\BaseAuth;
+
 /**
  * Class Odnoklassniki
  *
@@ -16,7 +18,7 @@ namespace Mezon\SocialNetwork\Auth;
  *
  * @author Dodonov A.A.
  */
-class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
+class Odnoklassniki extends BaseAuth
 {
 
     /**

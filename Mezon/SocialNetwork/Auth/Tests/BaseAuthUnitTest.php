@@ -1,6 +1,10 @@
 <?php
+namespace Mezon\SocialNetwork\Auth\Tests;
 
-class AdoptedBaseAuth extends \Mezon\SocialNetwork\BaseAuth
+use Mezon\SocialNetwork\BaseAuth;
+use PHPUnit\Framework\TestCase;
+
+class AdoptedBaseAuth extends BaseAuth
 {
 
     public function getUserInfoUri(string $token = ''): string
@@ -19,7 +23,7 @@ class AdoptedBaseAuth extends \Mezon\SocialNetwork\BaseAuth
     }
 }
 
-class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
+class BaseAuthUnitTest extends TestCase
 {
 
     /**
@@ -60,7 +64,10 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
         $link = $auth->getLink();
 
         // assertions
-        $this->assertStringContainsString('http://oauth-uriclient_id=1&redirect_uri=3&response_type=code', $link, 'Invalid link was generated');
+        $this->assertStringContainsString(
+            'http://oauth-uriclient_id=1&redirect_uri=3&response_type=code',
+            $link,
+            'Invalid link was generated');
     }
 
     /**
@@ -68,16 +75,14 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
      */
     public function testGetLinkException()
     {
+        // assertions
+        $this->expectException(\Exception::class);
+
         // setup
         $auth = new AdoptedBaseAuth([]);
 
-        try {
-            // test body and assertions
-            $auth->getLink();
-            $this->fail('Exception must be thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        // test body
+        $auth->getLink();
     }
 
     /**
@@ -180,14 +185,15 @@ class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
             $this->getSettings()
         ])
             ->getMock();
-        $auth->method('getRequest')->willReturn(json_encode([
-            'id' => 1,
-            'picture' => [
-                'data' => [
-                    'url' => 'http://'
+        $auth->method('getRequest')->willReturn(
+            json_encode([
+                'id' => 1,
+                'picture' => [
+                    'data' => [
+                        'url' => 'http://'
+                    ]
                 ]
-            ]
-        ]));
+            ]));
 
         $auth->method('requestToken')->willReturn([
             'access_token' => 'some-token'

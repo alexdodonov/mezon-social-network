@@ -1,6 +1,9 @@
 <?php
+namespace Mezon\SocialNetwork\Auth\Tests;
 
-class VKAuthUnitTest extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class VKAuthUnitTest extends TestCase
 {
 
     /**

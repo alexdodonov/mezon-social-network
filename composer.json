@@ -10,7 +10,8 @@
 		}
 	],
 	"require-dev": {
-		"phpunit/phpunit": "8.5"
+		"phpunit/phpunit": "8.5",
+        "vimeo/psalm": "^4.2"
 	},
 	"require" : {
 		"php" : ">=7.2.0",
@@ -26,13 +27,14 @@
 	"prefer-stable" : true,
 	"autoload": {
 		"psr-4": {
-			"Mezon\\SocialNetwork\\": "",
-			"Mezon\\SocialNetwork\\Auth\\": ""
+			"Mezon\\": "./Mezon"
 		}
 	},
 	"scripts": {
-		"test": [
-			"php ./vendor/phpunit/phpunit/phpunit --testsuite all"
-		]
+		"test": "php ./vendor/phpunit/phpunit/phpunit",
+		"psalm": "php ./vendor/vimeo/psalm/psalm --show-info=true --no-cache",
+		"infection" : "php ./vendor/infection/infection/bin/infection",
+		"psalm-self": "php ./vendor/vimeo/psalm/psalm --config=psalm-self.xml --show-info=true --no-cache",
+		"test-unit": "php ./vendor/phpunit/phpunit/phpunit --testsuite unit"
 	}
 }

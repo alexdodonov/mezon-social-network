@@ -32,17 +32,18 @@ class Odnoklassniki extends BaseAuth
     }
 
     /**
-     * Method return URL wich provides user's info
      *
-     * @param string $Token
-     *            - Token
-     * @return string URL
+     * {@inheritdoc}
+     * @see \Mezon\SocialNetwork\BaseAuth::getUserInfoUri()
      */
-    public function getUserInfoUri(string $Token = ''): string
+    public function getUserInfoUri(string $token = ''): string
     {
-        $Signature = md5('application_key=' . $this->settings['client_public'] . 'fields=' . $this->getDesiredFields() . 'format=jsonmethod=users.getCurrentUser' . md5($Token . $this->settings['client_secret']));
+        $signature = md5(
+            'application_key=' . $this->settings['client_public'] . 'fields=' . $this->getDesiredFields() .
+            'format=jsonmethod=users.getCurrentUser' . md5($token . $this->settings['client_secret']));
 
-        return 'http://api.odnoklassniki.ru/fb.do?application_key=' . $this->settings['client_public'] . '&format=json&method=users.getCurrentUser&sig=' . $Signature . '&';
+        return 'http://api.odnoklassniki.ru/fb.do?application_key=' . $this->settings['client_public'] .
+            '&format=json&method=users.getCurrentUser&sig=' . $signature . '&';
     }
 
     /**
@@ -114,7 +115,11 @@ class Odnoklassniki extends BaseAuth
      */
     public function requestToken(array $params): array
     {
-        $result = \Mezon\CustomClient\CurlWrapper::sendRequest('http://api.odnoklassniki.ru/oauth/token.do', [], 'POST', $params);
+        $result = \Mezon\CustomClient\CurlWrapper::sendRequest(
+            'http://api.odnoklassniki.ru/oauth/token.do',
+            [],
+            'POST',
+            $params);
 
         return json_decode($result[0], true);
     }

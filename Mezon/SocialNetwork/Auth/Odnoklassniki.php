@@ -112,9 +112,11 @@ class Odnoklassniki extends BaseAuth
      * @param array $params
      *            - Request params
      * @return array Token data
+     * @codeCoverageIgnore
      */
     public function requestToken(array $params): array
     {
+        // TODO create CurlWrapperMock in InfraStructureLayer
         $result = \Mezon\CustomClient\CurlWrapper::sendRequest(
             'http://api.odnoklassniki.ru/oauth/token.do',
             [],

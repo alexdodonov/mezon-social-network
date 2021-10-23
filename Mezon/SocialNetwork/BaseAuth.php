@@ -31,7 +31,7 @@ abstract class BaseAuth
      *
      * @var array
      */
-    var $userInfo;
+    var $userInfo = [];
 
     /**
      * Constructor.
@@ -75,13 +75,17 @@ abstract class BaseAuth
             $token = $this->requestToken($params);
 
             if (isset($token['access_token'])) {
-                $query = urldecode(http_build_query([
+                $query = urldecode(
+                    http_build_query(
+                        [
 
-                    'access_token' => $token['access_token'],
-                    'fields' => $this->getDesiredFields()
-                ]));
+                            'access_token' => $token['access_token'],
+                            'fields' => $this->getDesiredFields()
+                        ]));
 
-                $this->userInfo = json_decode($this->getRequest($this->getUserInfoUri($token['access_token']) . $query), true);
+                $this->userInfo = json_decode(
+                    $this->getRequest($this->getUserInfoUri($token['access_token']) . $query),
+                    true);
 
                 $this->userInfo = $this->dispatchUserInfo($this->userInfo);
 
@@ -103,12 +107,14 @@ abstract class BaseAuth
     {
         if (count($this->settings)) {
 
-            $query = urldecode(http_build_query([
+            $query = urldecode(
+                http_build_query(
+                    [
 
-                'client_id' => $this->settings['client_id'],
-                'redirect_uri' => $this->settings['redirect_uri'],
-                'response_type' => 'code'
-            ]));
+                        'client_id' => $this->settings['client_id'],
+                        'redirect_uri' => $this->settings['redirect_uri'],
+                        'response_type' => 'code'
+                    ]));
 
             return $this->getOauthUri() . $query;
         }

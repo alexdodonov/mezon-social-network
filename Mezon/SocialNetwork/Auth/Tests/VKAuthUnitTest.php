@@ -2,7 +2,12 @@
 namespace Mezon\SocialNetwork\Auth\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Mezon\SocialNetwork\Auth\Vkontakte;
 
+/**
+ * 
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class VKAuthUnitTest extends TestCase
 {
 
@@ -23,10 +28,10 @@ class VKAuthUnitTest extends TestCase
     /**
      * Testing getUserInfoUri
      */
-    public function testGetUerInfoUri()
+    public function testGetUerInfoUri():void
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
+        $Auth = new Vkontakte($this->getSettings());
 
         // test body and assertions
         $this->assertStringContainsString('/api.vk.com/method/users.get?v=', $Auth->getUserInfoUri());
@@ -35,10 +40,10 @@ class VKAuthUnitTest extends TestCase
     /**
      * Testing getTokenUri
      */
-    public function testGetTokenUri()
+    public function testGetTokenUri():void
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
+        $Auth = new Vkontakte($this->getSettings());
 
         // test body and assertions
         $this->assertStringContainsString('/oauth.vk.com/access_token?v=', $Auth->getTokenUri());
@@ -47,10 +52,10 @@ class VKAuthUnitTest extends TestCase
     /**
      * Testing getDesiredFields
      */
-    public function testGetDesiredFields()
+    public function testGetDesiredFields():void
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
+        $Auth = new Vkontakte($this->getSettings());
 
         // test body
         $Fields = $Auth->getDesiredFields();
@@ -66,10 +71,10 @@ class VKAuthUnitTest extends TestCase
     /**
      * Testing dispatchUserInfo
      */
-    public function testDispatchUserInfo()
+    public function testDispatchUserInfo():void
     {
         // setup
-        $Auth = new \Mezon\SocialNetwork\Auth\Vkontakte($this->getSettings());
+        $Auth = new Vkontakte($this->getSettings());
 
         // test body
         $Result = $Auth->dispatchUserInfo([

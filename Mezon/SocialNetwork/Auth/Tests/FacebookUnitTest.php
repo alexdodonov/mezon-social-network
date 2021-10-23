@@ -4,6 +4,10 @@ namespace Mezon\SocialNetwork\Auth\Tests;
 use PHPUnit\Framework\TestCase;
 use Mezon\SocialNetwork\Auth\Facebook;
 
+/**
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class FacebookUnitTest extends TestCase
 {
 
@@ -24,7 +28,7 @@ class FacebookUnitTest extends TestCase
     /**
      * Testing getUserInfoUri
      */
-    public function testGetUserInfoUri()
+    public function testGetUserInfoUri(): void
     {
         // setupp
         $auth = new Facebook($this->getSettings());
@@ -36,7 +40,7 @@ class FacebookUnitTest extends TestCase
     /**
      * Testing getTokenUri
      */
-    public function testGetTokenUri()
+    public function testGetTokenUri(): void
     {
         // setupp
         $auth = new Facebook($this->getSettings());
@@ -48,7 +52,7 @@ class FacebookUnitTest extends TestCase
     /**
      * Testing getDesiredFields
      */
-    public function testGetDesiredFields()
+    public function testGetDesiredFields(): void
     {
         // setupp
         $auth = new Facebook($this->getSettings());
@@ -62,7 +66,7 @@ class FacebookUnitTest extends TestCase
     /**
      * Testing dispatchUserInfo
      */
-    public function testDispatchUserInfo()
+    public function testDispatchUserInfo(): void
     {
         // setupp
         $auth = new Facebook($this->getSettings());

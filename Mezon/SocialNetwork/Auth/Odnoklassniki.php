@@ -69,9 +69,9 @@ class Odnoklassniki extends BaseAuth
     /**
      * Method dispatches user info
      *
-     * @param array $UserInfo
-     *            - User info got from social network
-     * @return array Dispatched user info. Must be as array with keys id, first_name, last_name, email, picture
+     * @param array $userInfo
+     *            user info got from social network
+     * @return array dispatched user info. Must be as array with keys id, first_name, last_name, email, picture
      */
     public function dispatchUserInfo(array $userInfo): array
     {

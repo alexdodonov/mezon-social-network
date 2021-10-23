@@ -1,28 +1,12 @@
 <?php
 namespace Mezon\SocialNetwork\Auth\Tests;
 
-use Mezon\SocialNetwork\BaseAuth;
 use PHPUnit\Framework\TestCase;
 
-class AdoptedBaseAuth extends BaseAuth
-{
-
-    public function getUserInfoUri(string $token = ''): string
-    {
-        return 'http://user-info-uri/?' . $token;
-    }
-
-    public function getTokenUri(): string
-    {
-        return 'http://token-uri';
-    }
-
-    public function getOauthUri(): string
-    {
-        return 'http://oauth-uri';
-    }
-}
-
+/**
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class BaseAuthUnitTest extends TestCase
 {
 
@@ -43,7 +27,7 @@ class BaseAuthUnitTest extends TestCase
     /**
      * Testing constructor
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         // setup and test body
         $Auth = new AdoptedBaseAuth($this->getSettings());
@@ -55,7 +39,7 @@ class BaseAuthUnitTest extends TestCase
     /**
      * Testing get_link
      */
-    public function testGetLink()
+    public function testGetLink(): void
     {
         // setup
         $auth = new AdoptedBaseAuth($this->getSettings());
@@ -71,9 +55,9 @@ class BaseAuthUnitTest extends TestCase
     }
 
     /**
-     * Testing get_link exception
+     * Testing getLink exception
      */
-    public function testGetLinkException()
+    public function testGetLinkException(): void
     {
         // assertions
         $this->expectException(\Exception::class);
@@ -88,7 +72,7 @@ class BaseAuthUnitTest extends TestCase
     /**
      * Testing getUserInfoUri
      */
-    public function testGetUserInfoUri()
+    public function testGetUserInfoUri(): void
     {
         // setup
         $auth = new AdoptedBaseAuth($this->getSettings());
@@ -101,15 +85,15 @@ class BaseAuthUnitTest extends TestCase
     }
 
     /**
-     * Testing get_token_params method
+     * Testing getTokenParams method
      */
-    public function testGetTokenParams()
+    public function testGetTokenParams(): void
     {
         // setup
         $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
-        $params = $auth->getTokenParams(123);
+        $params = $auth->getTokenParams('123');
 
         // assertions
         $this->assertEquals(1, $params['client_id'], 'Invalid "client_id"');
@@ -119,9 +103,9 @@ class BaseAuthUnitTest extends TestCase
     }
 
     /**
-     * Testing get_token_uri
+     * Testing getTokenUri
      */
-    public function testGetTokenUri()
+    public function testGetTokenUri(): void
     {
         // setup
         $auth = new AdoptedBaseAuth($this->getSettings());
@@ -134,9 +118,9 @@ class BaseAuthUnitTest extends TestCase
     }
 
     /**
-     * Testing get_desired_fields
+     * Testing getDesiredFields
      */
-    public function testGetDesiredFields()
+    public function testGetDesiredFields(): void
     {
         // setup
         $auth = new AdoptedBaseAuth($this->getSettings());
@@ -151,7 +135,7 @@ class BaseAuthUnitTest extends TestCase
     /**
      * Testing 'dispatchUserInfo' method
      */
-    public function testDispatchUserInfo()
+    public function testDispatchUserInfo(): void
     {
         // setup
         $auth = new AdoptedBaseAuth($this->getSettings());
@@ -173,31 +157,10 @@ class BaseAuthUnitTest extends TestCase
     /**
      * Testing 'auth' method
      */
-    public function testAuth()
+    public function testAuth(): void
     {
         // setup
-        $auth = $this->getMockBuilder(AdoptedBaseAuth::class)
-            ->setMethods([
-            'getRequest',
-            'requestToken'
-        ])
-            ->setConstructorArgs([
-            $this->getSettings()
-        ])
-            ->getMock();
-        $auth->method('getRequest')->willReturn(
-            json_encode([
-                'id' => 1,
-                'picture' => [
-                    'data' => [
-                        'url' => 'http://'
-                    ]
-                ]
-            ]));
-
-        $auth->method('requestToken')->willReturn([
-            'access_token' => 'some-token'
-        ]);
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // test body
         $result = $auth->auth('some-code');

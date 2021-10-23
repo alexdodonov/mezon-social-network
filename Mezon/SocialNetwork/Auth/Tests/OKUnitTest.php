@@ -4,6 +4,10 @@ namespace Mezon\SocialNetwork\Auth\Tests;
 use PHPUnit\Framework\TestCase;
 use Mezon\SocialNetwork\Auth\Odnoklassniki;
 
+/**
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class OKUnitTest extends TestCase
 {
 
@@ -25,7 +29,7 @@ class OKUnitTest extends TestCase
     /**
      * Testing getUserInfoUri
      */
-    public function testGetUserInfoUri()
+    public function testGetUserInfoUri(): void
     {
         // setup
         $auth = new Odnoklassniki($this->getSettings());
@@ -38,7 +42,7 @@ class OKUnitTest extends TestCase
     /**
      * Testing getTokenUri
      */
-    public function testGetTokenUri()
+    public function testGetTokenUri(): void
     {
         // setup
         $auth = new Odnoklassniki($this->getSettings());
@@ -52,7 +56,7 @@ class OKUnitTest extends TestCase
     /**
      * Testing dispatchUserInfo
      */
-    public function testDispatchUserInfo()
+    public function testDispatchUserInfo(): void
     {
         // setup
         $auth = new Odnoklassniki($this->getSettings());
@@ -78,13 +82,13 @@ class OKUnitTest extends TestCase
     /**
      * Testing getTokenParams method
      */
-    public function testGetTokenParams()
+    public function testGetTokenParams(): void
     {
         // setup
         $auth = new Odnoklassniki($this->getSettings());
 
         // test body
-        $params = $auth->getTokenParams(123);
+        $params = $auth->getTokenParams('123');
 
         // assertions
         $this->assertEquals(1, $params['client_id'], 'Invalid "client_id"');

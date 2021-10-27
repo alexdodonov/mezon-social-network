@@ -24,14 +24,14 @@ abstract class BaseAuth
      *
      * @var array
      */
-    var $settings = [];
+    protected $settings = [];
 
     /**
      * Fetched user's info.
      *
      * @var array
      */
-    var $userInfo = [];
+    protected $userInfo = [];
 
     /**
      * Constructor.
@@ -68,20 +68,21 @@ abstract class BaseAuth
      */
     public function auth(string $code): bool
     {
-        if ($code && $this->settings) {
+        if ($code && ! empty($this->settings)) {
 
             $params = $this->getTokenParams($code);
 
             $token = $this->requestToken($params);
 
             if (isset($token['access_token'])) {
-                $query = urldecode(
-                    http_build_query(
-                        [
+                $query = http_build_query(
+                    [
 
-                            'access_token' => $token['access_token'],
-                            'fields' => $this->getDesiredFields()
-                        ]));
+                        'access_token' => $token['access_token'],
+                        'fields' => $this->getDesiredFields()
+                    ]);
+
+                $query = urldecode($query);
 
                 $this->userInfo = json_decode(
                     $this->getRequest($this->getUserInfoUri($token['access_token']) . $query),
@@ -105,16 +106,16 @@ abstract class BaseAuth
      */
     public function getLink(): string
     {
-        if (count($this->settings)) {
+        if (! empty($this->settings)) {
+            $query = http_build_query(
+                [
 
-            $query = urldecode(
-                http_build_query(
-                    [
+                    'client_id' => $this->settings['client_id'],
+                    'redirect_uri' => $this->settings['redirect_uri'],
+                    'response_type' => 'code'
+                ]);
 
-                        'client_id' => $this->settings['client_id'],
-                        'redirect_uri' => $this->settings['redirect_uri'],
-                        'response_type' => 'code'
-                    ]));
+            $query = urldecode($query);
 
             return $this->getOauthUri() . $query;
         }
@@ -198,5 +199,15 @@ abstract class BaseAuth
         $query = urldecode(http_build_query($params));
 
         return json_decode(file_get_contents($this->getTokenUri() . $query), true);
+    }
+
+    /**
+     * Method returns settings
+     *
+     * @return array settigs
+     */
+    public function getSettings(): array
+    {
+        return $this->settings;
     }
 }

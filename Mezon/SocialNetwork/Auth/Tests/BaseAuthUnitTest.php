@@ -30,14 +30,14 @@ class BaseAuthUnitTest extends TestCase
     public function testConstructor(): void
     {
         // setup and test body
-        $Auth = new AdoptedBaseAuth($this->getSettings());
+        $auth = new AdoptedBaseAuth($this->getSettings());
 
         // assertions
-        $this->assertEquals(3, count($Auth->settings), 'Setting were not set');
+        $this->assertEquals(3, count($auth->getSettings()), 'Setting were not set');
     }
 
     /**
-     * Testing get_link
+     * Testing getLink
      */
     public function testGetLink(): void
     {
@@ -167,5 +167,47 @@ class BaseAuthUnitTest extends TestCase
 
         // assertions
         $this->assertTrue($result, 'Auth was not performed');
+    }
+
+    /**
+     * Testing data provider
+     *
+     * @return array testing data
+     */
+    public function authDataProvider(): array
+    {
+        return [
+            // #0, the first case
+            [
+                $this->getSettings(),
+                ''
+            ],
+            // #1, the first case
+            [
+                [],
+                'access-code'
+            ]
+        ];
+    }
+
+    /**
+     * Testing 'auth' method when not all data is passed correctly
+     *
+     * @param array $settings
+     *            settings
+     * @param string $code
+     *            access code
+     * @dataProvider authDataProvider
+     */
+    public function testAuthFalse(array $settings, string $code): void
+    {
+        // setup
+        $auth = new AdoptedBaseAuth($settings);
+
+        // test body
+        $result = $auth->auth($code);
+
+        // assertions
+        $this->assertFalse($result);
     }
 }

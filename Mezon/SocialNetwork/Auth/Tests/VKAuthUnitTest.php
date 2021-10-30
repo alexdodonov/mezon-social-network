@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Mezon\SocialNetwork\Auth\Vkontakte;
 
 /**
- * 
+ *
  * @psalm-suppress PropertyNotSetInConstructor
  */
 class VKAuthUnitTest extends TestCase
@@ -28,72 +28,85 @@ class VKAuthUnitTest extends TestCase
     /**
      * Testing getUserInfoUri
      */
-    public function testGetUerInfoUri():void
+    public function testGetUerInfoUri(): void
     {
         // setup
-        $Auth = new Vkontakte($this->getSettings());
+        $auth = new Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/api.vk.com/method/users.get?v=', $Auth->getUserInfoUri());
+        $this->assertStringContainsString('/api.vk.com/method/users.get?v=', $auth->getUserInfoUri());
     }
 
     /**
      * Testing getTokenUri
      */
-    public function testGetTokenUri():void
+    public function testGetTokenUri(): void
     {
         // setup
-        $Auth = new Vkontakte($this->getSettings());
+        $auth = new Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertStringContainsString('/oauth.vk.com/access_token?v=', $Auth->getTokenUri());
+        $this->assertStringContainsString('/oauth.vk.com/access_token?v=', $auth->getTokenUri());
     }
 
     /**
      * Testing getDesiredFields
      */
-    public function testGetDesiredFields():void
+    public function testGetDesiredFields(): void
     {
         // setup
-        $Auth = new Vkontakte($this->getSettings());
+        $auth = new Vkontakte($this->getSettings());
 
         // test body
-        $Fields = $Auth->getDesiredFields();
+        $fields = $auth->getDesiredFields();
 
         // assertions
-        $this->assertStringContainsString('id', $Fields);
-        $this->assertStringContainsString('first_name', $Fields);
-        $this->assertStringContainsString('last_name', $Fields);
-        $this->assertStringContainsString('email', $Fields);
-        $this->assertStringContainsString('photo_100', $Fields);
+        $this->assertStringContainsString('id', $fields);
+        $this->assertStringContainsString('first_name', $fields);
+        $this->assertStringContainsString('last_name', $fields);
+        $this->assertStringContainsString('email', $fields);
+        $this->assertStringContainsString('photo_100', $fields);
     }
 
     /**
      * Testing dispatchUserInfo
      */
-    public function testDispatchUserInfo():void
+    public function testDispatchUserInfo(): void
     {
         // setup
-        $Auth = new Vkontakte($this->getSettings());
+        $auth = new Vkontakte($this->getSettings());
 
         // test body
-        $Result = $Auth->dispatchUserInfo([
-            'response' => [
-                [
-                    'id' => '',
-                    'first_name' => '',
-                    'last_name' => '',
-                    'photo_100' => '',
-                    'email' => ''
+        $result = $auth->dispatchUserInfo(
+            [
+                'response' => [
+                    [
+                        'id' => '',
+                        'first_name' => '',
+                        'last_name' => '',
+                        'photo_100' => '',
+                        'email' => ''
+                    ]
                 ]
-            ]
-        ]);
+            ]);
 
         // assertions
-        $this->assertArrayHasKey('id', $Result, 'id was not found');
-        $this->assertArrayHasKey('first_name', $Result, 'first_name was not found');
-        $this->assertArrayHasKey('last_name', $Result, 'last_name was not found');
-        $this->assertArrayHasKey('picture', $Result, 'picture was not found');
-        $this->assertArrayHasKey('email', $Result, 'email was not found');
+        $this->assertArrayHasKey('id', $result, 'id was not found');
+        $this->assertArrayHasKey('first_name', $result, 'first_name was not found');
+        $this->assertArrayHasKey('last_name', $result, 'last_name was not found');
+        $this->assertArrayHasKey('picture', $result, 'picture was not found');
+        $this->assertArrayHasKey('email', $result, 'email was not found');
+    }
+
+    /**
+     * Testing method getOauthUri
+     */
+    public function testGetOauthUri(): void
+    {
+        // setup
+        $auth = new Vkontakte($this->getSettings());
+
+        // test body and assertions
+        $this->assertEquals('https://oauth.vk.com/authorize?v=5.0&', $auth->getOauthUri());
     }
 }

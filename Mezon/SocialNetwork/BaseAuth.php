@@ -193,6 +193,7 @@ abstract class BaseAuth
      * @param array $params
      *            Request params
      * @return array Token data
+     * @codeCoverageIgnore
      */
     public function requestToken(array $params): array
     {
